@@ -44,27 +44,43 @@ document.querySelector(".btn-roll").addEventListener("click", function()
     else
     {
         // 1 буусан тул тоглогчийн ээлжийг энэ хэсэгт сольж өгнө
-        document.getElementById("current-" + activePlayer).textContent = 0;
+        
         //хэрэв идэвхтэй тоглогч нь 0 байвал идэвхтэй тоглогчийг 1 болго
         //үгүй бол идэвхтэй тоглогчийг 0 болго
-        roundScore = 0;
-        activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-        
-        //улаан цэг шилжүүлэх
-        document.querySelector(".player-0-panel").classList.toggle("active");
-        document.querySelector(".player-1-panel").classList.toggle("active");
-
-        // шоог түр алга болгоно
-        diceDom.style.display = "none";
-
-
-        // if(activePlayer ===0)
-        // {
-        //     activePlayer = 1;
-        // }
-        // else
-        // {
-        //     activePlayer = 0;
-        // }
+        switchToNextPlayer();
     }
 });
+
+// Hold товчны эвент
+document.querySelector(".btn-hold").addEventListener("click", function()
+{
+    scores[activePlayer] = scores[activePlayer] + roundScore;
+    //дэлгэц дээр оноог нь өөрчилнө
+    document.getElementById("score-" + activePlayer).textContent = scores[activePlayer];
+    // ээжлийн оноог нь 0 болгоно
+    // тоглогчийн ээлийг солино
+    if(scores[activePlayer]>=10)
+    {
+        document.getElementById("name-" + activePlayer).textContent = "Winner";
+        document.querySelector(".player-" + activePlayer + "-panel").classList.add("winner");
+        document.querySelector(".player-" + activePlayer + "-panel").classList.remove("active");
+    }
+    else
+    {
+        switchToNextPlayer();
+    }
+    
+});
+
+function switchToNextPlayer()
+{
+    roundScore = 0;
+    document.getElementById("current-" + activePlayer).textContent = 0;
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+    //улаан цэг шилжүүлэх
+    document.querySelector(".player-0-panel").classList.toggle("active");
+    document.querySelector(".player-1-panel").classList.toggle("active");
+    // шоог түр алга болгоно
+    diceDom.style.display = "none";
+}
+
